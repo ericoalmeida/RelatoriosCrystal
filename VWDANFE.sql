@@ -23,8 +23,26 @@ CREATE OR ALTER VIEW VWDANFE(
     NFISCNUMERO,
     NFISCTIPO,
     NFISCCHAVEACESSO,
+    NFISCOPERACAO,
+    NFISCPROTOCOLOAUTORIZACAO,
     NFISCEMISSAO,
-    NFISCOPERACAO)
+    NFISCDATASAIDA,
+    NFISCHORASAIDA,
+    NFISCTOTALBRUTO,
+    NFISCDESCONTO,
+    NFISCTOTALLIQUIDO,
+    DESTTIPO,
+    DESTRAZAOSOCIAL,
+    DESTNOMEFANTASIA,
+    DESTCPFCNPJ,
+    DESTIESTADUAL,
+    DESTENDERECO,
+    DESTNUMERO,
+    DESTBAIRRO,
+    DESTMUNICIPIO,
+    DESTUF,
+    DESTCEP,
+    DESTFONE)
 AS
 Select
 
@@ -52,8 +70,26 @@ NFisc.status                     as NFiscStatus,
 lpad(NFisc.cnf, 9, '0')          as NFiscNumero,
 NFisc.tpnf                       as NFiscTipo,
 NFisc.chave                      as NFiscChaveAcesso,
+NFisc.natop                      as NFiscOperacao,
+NFisc.recebimentoprotocolo       as NFiscProtocoloAutorizacao,
 NFisc.dataemissao                as NFiscEmissao,
-NFisc.natop                      as NFiscOperacao
+NFisc.datamovimento              as NFiscDataSaida,
+NFisc.hrmovimento                as NFiscHorasaida,
+NFisc.tt_vprod                   as NFiscTotalBruto,
+NFisc.tt_vdesc                   as NFiscDesconto,
+NFisc.tt_vnf                     as NFiscTotalLiquido,
+Dest.tipopessoa                  as DestTipo,
+Dest.razaosocial                 as DestRazaoSocial,
+Dest.nome                        as DestNomeFantasia,
+Dest.cgccpf                      as DestCPFCNPJ,
+Dest.iestadual                   as DestIEstadual,
+Dest.end_endereco                as DestEndereco,
+Dest.end_numero                  as DestNumero,
+Dest.end_bairro                  as DestBairro,
+Dest.end_municipionome           as DestMunicipio,
+Dest.end_uf                      as DestUF,
+Dest.end_cep                     as DestCEP,
+Dest.end_fone                    as DestFone
 
 
 From
@@ -61,4 +97,5 @@ From
 TGerEmpresa Emiss
 Left Join TGerCidade EmissCid on (EmissCid.idcidade = Emiss.idcidade)
 Left Join TNfeNota NFisc on (NFisc.empresa = Emiss.codigo)
+Left Join TNfeDestinatario Dest on (Dest.empresa = NFisc.empresa)and(dest.idnota=NFisc.idnota)
 ;
